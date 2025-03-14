@@ -3,15 +3,14 @@ name: Big Data Workflow
 on:
   push:
     branches:
-      - main   # Se ejecuta en cambios en la rama principal
-  workflow_dispatch:  # Permite activar el workflow manualmente desde GitHub
-
+      - main  
+  workflow_dispatch:  
 jobs:
   preprocess:
     runs-on: ubuntu-latest
 
     steps:
-    # Paso 1: Descargar el código del repositorio
+    # Paso 1: 
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -19,7 +18,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.8"  # Cambia si necesitas otra versión de Python
+        python-version: "3.8"  
 
     # Paso 3: Instalar dependencias
     - name: Install dependencies
