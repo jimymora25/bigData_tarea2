@@ -3,8 +3,8 @@ name: Big Data Workflow
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:  # Permite ejecutarlo manualmente desde GitHub
+      - main   # Se ejecuta en cambios en la rama principal
+  workflow_dispatch:  # Permite activar el workflow manualmente desde GitHub
 
 jobs:
   preprocess:
@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.8"  # Cambia a tu versión de Python si es diferente
+        python-version: "3.8"  # Cambia si necesitas otra versión de Python
 
     # Paso 3: Instalar dependencias
     - name: Install dependencies
@@ -32,19 +32,4 @@ jobs:
       run: python scripts/generar_datos.py
 
     # Paso 5: Ejecutar el script de limpieza de datos
-    - name: Run data cleaning script
-      run: python scripts/limpieza.py
-
-    # Paso 6: Guardar los datos limpios como artefactos
-    - name: Upload cleaned data
-      uses: actions/upload-artifact@v3
-      with:
-        name: cleaned-data
-        path: resultados/cleaned_data.xlsx
-
-    # Paso 7: Guardar el archivo de auditoría como artefacto
-    - name: Upload audit log
-      uses: actions/upload-artifact@v3
-      with:
-        name: audit-log
-        path: resultados/audit_log.txt
+    - name
