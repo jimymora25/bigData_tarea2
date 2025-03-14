@@ -1,51 +1,50 @@
 name: Big Data Workflow
 
-# Eventos que activan el workflow
 on:
   push:
     branches:
-      - main   # Se ejecuta cuando hay cambios en la rama principal
-  workflow_dispatch:  # Permite activar el workflow manualmente desde GitHub
+      - main
+  workflow_dispatch:  # Permite ejecutarlo manualmente desde GitHub
 
 jobs:
   preprocess:
-    runs-on: ubuntu-latest  # Máquina virtual donde se ejecutará el workflow
+    runs-on: ubuntu-latest
 
     steps:
-    # Paso 1: Configurar el repositorio
+    # Paso 1: Descargar el código del repositorio
     - name: Checkout code
-      uses: actions/checkout@v3  # Descarga el código del repositorio
+      uses: actions/checkout@v3
 
     # Paso 2: Configurar Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.8"  # Especifica la versión de Python a usar
+        python-version: "3.8"  # Cambia a tu versión de Python si es diferente
 
     # Paso 3: Instalar dependencias
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip  # Actualiza pip
-        pip install -r requirements.txt      # Instala las librerías necesarias
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     # Paso 4: Ejecutar el script de generación de datos
     - name: Run data generation script
-      run: python scripts/generar_datos.py  # Ejecuta el script de generación
+      run: python scripts/generar_datos.py
 
     # Paso 5: Ejecutar el script de limpieza de datos
     - name: Run data cleaning script
-      run: python scripts/limpieza.py       # Ejecuta el script de limpieza
+      run: python scripts/limpieza.py
 
     # Paso 6: Guardar los datos limpios como artefactos
     - name: Upload cleaned data
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: cleaned-data                  # Nombre del artefacto
-        path: resultados/cleaned_data.xlsx  # Ruta del archivo limpio
+        name: cleaned-data
+        path: resultados/cleaned_data.xlsx
 
     # Paso 7: Guardar el archivo de auditoría como artefacto
     - name: Upload audit log
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: audit-log                     # Nombre del artefacto
-        path: resultados/audit_log.txt      # Ruta del archivo de auditoría
+        name: audit-log
+        path: resultados/audit_log.txt
