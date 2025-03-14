@@ -1,0 +1,50 @@
+name: Big Data Workflow
+
+# Eventos que activan el workflow
+on:
+  push:
+    branches:
+      - main   # Solo se ejecuta en cambios en la rama principal
+  workflow_dispatch:  # Permite activar manualmente desde la interfaz de GitHub
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest  # Máquina virtual para ejecutar el workflow
+
+    steps:
+    # Paso 1: Configurar el repositorio
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Paso 2: Configurar Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.8"
+
+    # Paso 3: Instalar dependencias
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Paso 4: Ejecutar el script de generación de datos
+    - name: Run data generation script
+      run: python scripts/generar_datos.py
+
+    # Paso 5: Ejecutar el script de limpieza de datos
+    - name: Run data cleaning script
+      run: python scripts/limpieza.py
+
+    # Paso 6: Guardar los resultados como artefactos
+    - name: Upload cleaned data
+      uses: actions/upload-artifact@v3
+      with:
+        name: cleaned-data
+        path: resultados/cleaned_data.xlsx
+
+    - name: Upload audit log
+      uses: actions/upload-artifact@v3
+      with:
+        name: audit-log
+        path: resultados/audit_log.txt
